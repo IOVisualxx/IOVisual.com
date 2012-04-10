@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>NO A LA SALA V</title>
+  <meta name="description" content="Utiliza tu foto de perfil para protestar contra la Sala V." />
+  <link rel="stylesheet" type="text/css" media="all" href="/media/css/reset.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="/media/css/text.css" />
+  <link rel="stylesheet" type="text/css" media="all" href="/media/css/960.css" />
+  <link rel="stylesheet" href="/media/css/salav.css" type="text/css" media="all" />
+</head>
+
+<body style="background:#2c2425 url(/media/img/background.png) no-repeat fixed 50px 230px;color:#fff;">
+  <style>
+    a {color: #ff1111;text-decoration:none;}
+    a:hover {text-decoration:underline;}
+    .feed {height: 220px;overflow-y:auto;color:#999;}
+    .feed ul {list-style-type:none;border-bottom:solid 1px #555;color:#555}
+    .feed li {margin-left:0px;border:solid 1px #555;border-bottom-width:0px;}
+    .feed h4 {margin-bottom:0px;}
+    .accion {background-color:#550000;padding:15px;text-align:center;border:solid 1px #ff0000;margin:10px 0px;font-size:16px;font-weight:bold;}
+    .form_help {font-style:italic;}
+    .footer_menu li a {font-weight:bold;}
+    .footer_menu ul {list-style-type:none;}
+    .footer_menu li {display:inline;margin:10px;}
+    .button {
+      background: #cc0000;
+      border:solid 1px #550000;
+      -moz-border-radius: 12px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      font-size:14px;
+      font-weight:bold;
+      padding:6px;
+      text-transform:uppercase;}
+    .file_wrapper {overflow:hidden;position:relative;width:160px;text-align:center}
+    .file_wrapper input {
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      filter: alpha(opacity=1);
+      -moz-opacity: 0.01;
+      opacity: 0.01;
+      font-size: 100px;
+      cursor: pointer;
+    }
+  </style>
+  <div class="container_12">
+    <div class="grid_12" style="margin-top:200px;text-align:center;font-size:18px;">
+      <p>
+        Tu foto de perfil en Facebook será modificada. <!-- TODO: like automatico, más explicativo -->
+      <p>
+      <form method="POST" action="/modify/facebook">
+         <div class="button">Elige una foto</div>
+
+        <p>
+          Continuar 
+
+          Atrás
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+

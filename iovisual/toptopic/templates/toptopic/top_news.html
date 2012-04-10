@@ -1,0 +1,12 @@
+<dl id="top_news">
+{% for item in top_news %}
+  <dt class="thumbnail">
+    <a href="{{ item.get_absolute_url }}">
+      <img src="{{ item.thumbnail_url }}" />
+    </a>
+  </dt>
+  <dd class="summary">
+    {{ item.summary }}
+  </dd>
+{% endfor %}
+</dl>

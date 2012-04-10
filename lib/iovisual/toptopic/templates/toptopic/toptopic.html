@@ -1,0 +1,15 @@
+<dl id="{{ toptopic_element_id|default:"toptopic" }}">
+{% for item in toptopic_toptopics %}
+  <dt class="title">
+    <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+  </dt>
+  <dd class="thumbnail">
+    <a href="{{ item.get_absolute_url }}">
+      <img src="{{ item.thumbnail_url }}" />
+    </a>
+  </dd>
+  <dd class="summary">
+    {{ item.summary }}
+  </dd>
+{% endfor %}
+</dl>

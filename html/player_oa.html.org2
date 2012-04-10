@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html>	
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<!-- rel -->
+		<!-- hoja de estilos -->
+<!--<link rel="stylesheet" type="text/css" media="all" href="/media/css/oa.css" />-->
+
+<!-- other css -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	</head>
+
+  <body id="top" class="green">
+
+<style type="text/css">
+  dl.news_gallery {}
+  dl.news_gallery dt {display:inline-block;vertical-align:top;}
+  dl.news_gallery dd {display:none;}
+  dl.news_gallery dd.short-desc {display:inline-block;cursor:pointer;vertical-align:top;margin-left:0;}
+  dl.news_gallery dt.expanded {float:left;}
+  dl.news_gallery dd.expanded {display:block;}
+  dl.news_gallery dd.expanded-bottom {clear:both;height:1px;background:#000;display:block;margin-left:0;}
+
+  /* custom */
+  #videografia2 {margin:0;}
+  #videografia2 dd.expanded-bottom {background:transparent;}
+  #videografia2 dt {margin:5px 0px 0px 5px;}
+  #videografia2 dt.thumbnail a {display:block;height:68px;width:120px;overflow:hidden;}
+  #videografia2 dt.thumbnail a img {position:relative;top:-11px;}
+  #videografia2 dt.selected a {border: 5px solid #ec0;margin: -5px 0px 0px -5px;}
+  #videografia2 dt.expanded {margin:5px 15px 5px 5px;}
+  #videografia2 dd.title {font-size: 24px;color:#ccc;font-weight:bold;}
+  #videografia2 dd.published {text-align:right;font-style:italic;color:#ddd}
+  #videografia2 dd.short-desc {font-weight:bold;font-size:14px;padding-top:15px;color:#ccc}
+  #videografia2 dd.short-desc:hover, #videografia2 dd.selected {color:#fff}
+  #videografia_container {background:#0092c8;padding:15px 25px;color:#fff;width:880px;}
+  #videografia_title {background:#0092c8;margin:0px 30px; padding:5px 15px 0px;color:#fff;font-size:20px;display:inline-block;}
+  #videografia2_loading {font-weight:bold;}
+</style>
+
+<div id="videografia_title">Videografía</div>
+<div id="videografia_container">
+  <div id="videografia2_loading">Cargando...</div>
+  <dl id="videografia2" style="display:none"></dl>
+</div>
+
+<script type="text/javascript">
+(function($) {
+  $.fn.extend({
+    /*
+    media_expand: function (options) { //todo: make it work with pictures (not only youtube videos) as well
+      var defaults = {
+      };
+      options = $.extend(defaults, options);
+      
+      
+    },*/
+    youtube_videos: function (options) {
+      var data_ready_ev = 'youtube_videos$data_ready';
+      var ready_ev = 'youtube_videos$ready';
+
+      var defaults = {
+        url: "https://gdata.youtube.com/feeds/api/videos",
+        data: {}
+      };
+      var default_data = {
+        //orderby: "published",
+        v: 2,
+        alt: 'json',
+      }
+      default_data["max-results"] = 8;
+      default_data["start-index"] = 1;
+
+      options = $.extend(defaults, options);
+      if (options.data) options.data = $.extend(default_data, options.data);
+
+      $.getJSON(options.url, options.data, $.proxy(function (data) {
+        var items = [];
+        //todo: make event usage more robust, pass around params, etc.
+        $(this).bind(data_ready_ev, function () {
+          $(this).html(items.join(""));
+          $(this).trigger(ready_ev);
+        });
+        //todo: use field param. See: https://developers.google.com/youtube/2.0/developers_guide_protocol_partial#Fields_Formatting_Rules
+        $.each(data.feed.entry, function (key, value) {
+          var thumbnail = value.media$group.media$thumbnail[0];
+          var published = value.published || value.media$group.yt$uploaded;
+          items[key] = ('<dt class="thumbnail"><a href="' 
+                         + value.link[0].href
+                         + '" data-embed="http://www.youtube.com/embed/'
+                         + value.media$group.yt$videoid.$t
+                         + '"><img src="' 
+                         + thumbnail.url 
+                         + '" height="'
+                         + thumbnail.height
+                         + '" width="'
+                         + thumbnail.width
+                         + '" /></a></dt><dd class="title">'
+                         + value.title.$t
+                         + '</dd><dd class="description">'
+                         + value.media$group.media$description.$t
+                         + '</dd><dd class="published">'
+                         + published.$t
+                         + '</dd>');
+        });
+        $(this).trigger(data_ready_ev);
+      }, this));
+    },
+    news_gallery: function (options) {
+      var defaults = {
+        expand: function (el) {return el;},
+      };
+      options = $.extend(defaults, options);
+
+      var main_c = this;
+      var select = function () {
+        var o = options;
+        var c = main_c;
+        var e = $('<dt class="expanded"></div>').prepend(
+          o.expand($(this).clone().children()));
+        c.children("dt.expanded")
+         .replaceWith(e);
+        c.children("dd.expanded").remove();
+        var title = $(this).next().filter("dd.short-desc");
+        var base = e.next("dd.expanded-bottom");
+        base.before(title.clone()
+                         .addClass("expanded")
+                         .removeClass("short-desc")
+                         .attr("style", ""))
+        var dd = title;
+        while((dd = dd.next().filter("dd")).length)
+          base.before(dd.clone().addClass("expanded"));
+        c.children(".selected").removeClass("selected");
+        title.addClass("selected");
+        $(this).addClass("selected");
+        return false;
+      };
+
+      var selected = this.addClass("news_gallery")
+          .children("dt")
+          .each(function() {
+        var o = options;
+
+        $(this).next().filter("dd")
+               .addClass("short-desc")
+               .click($.proxy(select, this))
+               .width($(this).width())
+               .css('margin-top', $(this).height());
+        $(this).width(0);
+      }).click(select).first();
+
+      this.prepend('<dt class="expanded"></dt><dd class="expanded-bottom"></dd>');
+      $.proxy(select, selected)();
+      return this;
+    },
+  });
+})(jQuery);
+
+$().ready(function () {
+  $("#videografia2").bind("youtube_videos$ready", function () {
+    $("#videografia2_loading").hide();
+    $(this).children("dd.published").each(function () {
+      var d = new Date($(this).html());
+      //$(this).html(d.toLocaleDateString());
+      $(this).html([d.getDate(), d.getMonth() + 1, d.getFullYear()].join("-"));
+    });
+
+    // Urlize. Assumes urls are always followed by a space or the end of the string.
+    $(this).children("dd.description").each(function () {
+      var d = $(this).html().split("://");
+      _description = d;
+      var items = [];
+      var scheme = null;
+      var path = null;
+      for (var i = 0; i < d.length; i ++) {
+        var value = d[i];
+        if (scheme) {
+          path = value.match(/^\S*/)[0];
+          _path = path;
+          var href = scheme + "://" + path;
+          var html = scheme == "http" && path || href;
+          items.push('<a target="_blank" href="' + href + '">' + html + '</a>');
+          scheme = null;
+        }
+        scheme = value.match(/\bhttps?$/);
+        if (scheme) scheme = scheme[0];
+        items.push(value.substring(path && path.length || 0, 
+                   value.length - (scheme && scheme.length || 0)));
+        if (!scheme) items.push("://");
+      }
+      if (scheme) items.push(scheme);
+      else items.pop();
+      $(this).html(items.join(""));
+    });
+
+    $(this).show().news_gallery({
+      expand: function (el) {
+        var src = el.filter("a").attr("data-embed");
+        return '<div style="height:0px"><div style="width:480px;height:272px;background:#000;">'
+               + '</div></div><iframe width="480" height="272" src="' 
+               + src + '" frameborder="0" allowfullscreen></iframe>';
+      },
+    });
+  });
+
+  var options = {
+    url: "https://gdata.youtube.com/feeds/api/playlists/7850B141B63144D4",
+    data: {},
+  }
+  //var options = {data: {author: "AEVENoticias"}};
+  options.data["max-results"] = 7;
+  $("#videografia2").youtube_videos(options);
+});
+</script>
+
+
+</body>
+</html> 
+

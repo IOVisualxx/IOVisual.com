@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<dl id="top_videos">
+  {% for item in top_videos %}
+  <dt class="thumbnail">
+    <a href="{{ item.get_absolute_url }}">
+      <img src="{{ item.thumbnail_url }}" />
+    </a>
+  </dt>
+  <dd class="summary">
+    <p>{{ item.summary }}</p>
+    <p class="published">
+      <time datetime="{{ item.published }}">{{ item.published  }}</time>
+    </p> {# TODO: format datetime #}
+    <p class="read_more">
+      <a href="{{ item.get_absolute_url }}">{% trans "Leer más" %}</a>
+    </p>
+  </dd>
+  <dd class="related">
+    <ul>
+    {% for r in item.related %}
+      <li><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </dd>
+  {% endfor %}
+</dl>

@@ -1,0 +1,14 @@
+{% extends base %}
+
+{% block content %}
+  <section id="videography">
+    {% with video_count = 4 %}
+      {% include videography %}
+    {% endwith %}
+  </section>
+  <section id="news">
+    {% with news_count = 2 %}
+      {% include news %}
+    {% endwith %}
+  </section>
+{% endblock content %}

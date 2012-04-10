@@ -1,0 +1,113 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  {# Metadata #}
+  <meta charset="utf-8" />
+  <meta name="title" content="{{ X_SITE_NAME }}" />
+  <meta name="keywords" content="{{ VERBIAGE.keywords }}" />
+  <meta name="description" content="{% block head_description %}{{ VERBIAGE.description }}{% endblock %}" />
+  <meta name="subject" content="{{ VERBIAGE.subject }}" />	
+  <meta name="author"  content="{{ VERBIAGE.author }}" />
+  <meta name="creator" content="{{ VERBIAGE.creator }}" />
+  <meta name="identifier" content="{{ X_CANONICAL_URL }}" />
+  {# <meta name="language" content="" /> #}
+  <meta name="robots" content="all" />
+  {% block head_meta %}{% endblock %}
+
+  <title>{% block head_title %}{{ VERBIAGE.title }}{% endblock %}</title>
+
+  <link rel="shortcut icon" href="{{ MEDIA_URL }}img/camara16.png" />
+  <link rel="canonical" href="{% block head_canonical %}{{ X_CANONICAL_URL }}{{ request.path }}{% endblock %}" />
+  {# <link rel="alternate" href="{% url rss-campaigns %}" type="application/rss+xml" title="{{X_SITE_NAME }} Campaigns" /> #}
+
+  {# Styles #}
+  {% if DEBUG or not X_STYLES_MINIFIED %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/text.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960.css" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/styles.css" type="text/css" media="all" />
+  {% else %}
+    <link rel="stylesheet" href="{{ X_STYLES_MINIFIED }}" type="text/css" media="all" />
+  {% endif %}
+  {% block head_styles %}{% endblock %}
+
+  {# TODO: Metrics #}
+  {% block head_extra %}{% endblock %}
+</head>
+
+<body>
+  {% block body %}
+    <header class="container_12">
+    {% block header %}
+      <h1 id="logo">
+        <a href="{% url index %}" title="{{ X_SITE_NAME }}">
+          <span class="genre">Cooperativa</em> 
+          <span class="name">Aud<span class="suffix">iovisual</span></span>
+        </a>
+      </h1>
+      <nav id="main_menu">
+        <ul>
+          <li class="{{ projects_choice_class }}"><a href="{% url projects %}">{% trans "Proyectos" %}</a></li>
+          <li class="{{ services_choice_class }}"><a href="{% url services %}">{% trans "Servicios" %}</a></li>
+          <li class="{{ contact_choice_class }}"><a href="{% url contact %}">{% trans "Contacto" %}</a></li>
+        </ul>
+      </nav>
+      {% include toptopic %} {# TODO: put into a nav? #}
+      {# TODO: link to admin site. language menu #}
+      {{ VERBIAGE.header|safe }}
+    {% endblock header %}
+    </header>
+    
+    {% block content %}
+    {% endblock content %}
+
+    <aside id="team">
+      {% block aside %}
+        <h2>{% trans "Equipo" %}</h2>
+        {# Part of toptopic #}
+        {% include team %} {# TODO: put into a nav? #}
+      {% endblock aside %}
+    </aside>
+
+    <footer class="container_12">
+    {% block footer %}
+      {{ VERBIAGE.footer|safe }}
+      <div id="short_about">
+        <p>{{ VERBIAGE.about }}</p>
+      </div>
+      <nav id="long_menu">
+        <ul>
+          <li><a href="{% url index %}">{% trans "Inicio" %}</a></li>
+          <li><a href="{% url projects %}">{% trans "Proyectos" %}</a></li>
+          <li><a href="{% url services %}">{% trans "Servicios" %}</a></li>
+          <li><a href="{% url contact %}">{% trans "Contacto" %}</a></li>
+          <!--<li><a href="#">Acerca</a></li>-->
+          <!--<li><a href="#">Código</a></li>-->
+          <!--<li><a href="#">Términos de uso</a></li>-->
+          <!--<li><a href="#">Privacidad</a></li>-->
+          <!--<li class="last"><a href="#">Blog</a></li>-->
+        </ul>
+      </nav>
+      <div id="site_copyright">
+        <p>{{ VERBIAGE.copyright|safe }}</p>
+      </div>
+    {% endblock footer %}
+    </footer>
+    {# TODO: Notifications #}
+  {% endblock body %}
+
+  {# Scripts #}
+  {% block scripts %}
+    <script type="text/javascript" src="{{ X_JQUERY_URL }}"></script>
+    {% if DEBUG or not X_SCRIPTS_MINIFIED %}
+      {% for script in X_SCRIPTS %}
+        <script src="{{ MEDIA_URL }}js/app/{{ script }}" type="text/javascript"></script>
+      {% endfor %}
+    {% else %}
+      <script src="{{ X_SCRIPTS_MINIFIED }}" type="text/javascript"></script>
+    {% endif %}
+  {% endblock %}
+</body>
+</html>

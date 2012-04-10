@@ -1,0 +1,100 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  {# Metadata #}
+  <meta charset="utf-8" />
+  <meta name="title" content="{{ X_SITE_NAME }}" />
+  <meta name="keywords" content="{{ VERBIAGE.keywords }}" />
+  <meta name="description" content="{% block head_description %}{{ VERBIAGE.description }}{% endblock %}" />
+  <meta name="subject" content="{{ VERBIAGE.subject }}" />	
+  <meta name="author"  content="{{ VERBIAGE.author }}" />
+  <meta name="creator" content="{{ VERBIAGE.creator }}" />
+  <meta name="identifier" content="{{ X_CANONICAL_URL }}" />
+  {# <meta name="language" content="" /> #}
+  <meta name="robots" content="all" />
+  {% block head_meta %}{% endblock %}
+
+  <title>{% block head_title %}{{ VERBIAGE.title }}{% endblock %}</title>
+
+  <link rel="shortcut icon" href="{{ MEDIA_URL }}img/lens16.png" />
+  <link rel="canonical" href="{% block head_canonical %}{{ X_CANONICAL_URL }}{{ request.path }}{% endblock %}" />
+  {# <link rel="alternate" href="{% url rss-campaigns %}" type="application/rss+xml" title="{{X_SITE_NAME }} Campaigns" /> #}
+
+  {# Styles #}
+  {% if DEBUG or not X_STYLES_MINIFIED %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/text.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960.css" />
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/styles.css" type="text/css" media="all" />
+  {% else %}
+    <link rel="stylesheet" href="{{ X_STYLES_MINIFIED }}" type="text/css" media="all" />
+  {% endif %}
+  {% block head_styles %}{% endblock %}
+
+  {# TODO: Metrics #}
+  {% block head_extra %}{% endblock %}
+</head>
+
+<body>
+  {% block body %}
+    <header class="container_12">
+    {% block header %}
+      <h1 id="logo">
+        <a href="/" title="{{ X_SITE_NAME }}">{{ X_SITE_NAME }}</a>
+      </h1>
+      <p id="toptopic">
+        {% include toptopic %}
+      </p>
+      {# TODO: link to admin site. language menu #}
+      {{ VERBIAGE.header | safe }}
+    {% endblock header %}
+    </header>
+    
+    {% block content %}
+    {% endblock content %}
+
+    <aside>
+      {% block aside %}
+        <p id="team">
+          {# Part of toptopic #}
+          {% include team %}
+        </p>
+      {% endblock aside %}
+    </aside>
+
+    <footer class="container_12">
+    {% block footer %}
+      {{ VERBIAGE.footer | safe }}
+      <p id="about">
+        {# TODO: fill #}
+      </p>
+      <ul>
+        <li><a href="{% url about %}">{% trans "Sobre nosotros" %}</a></li>
+        <li class="last"><a href="{% url contact %}">{% trans "Contáctanos" %}</a></li>
+        <!--<li><a href="terms">Términos de uso</a></li>-->
+        <!--<li><a href="privacy">Privacidad</a></li>-->
+        <!--<li class="last"><a href="#">Blog</a></li>-->
+      </ul>
+      <p id="copyright">
+        <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img id="cc_logo" alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 Unported License</a>.
+      </p>
+    {% endblock footer %}
+    </footer>
+    {# TODO: Notifications #}
+  {% endblock body %}
+
+  {# Scripts #}
+  {% block scripts %}
+    <script type="text/javascript" src="{{ X_JQUERY_URL }}"></script>
+    {% if DEBUG or not X_SCRIPTS_MINIFIED %}
+      {% for script in X_SCRIPTS %}
+        <script src="{{ MEDIA_URL }}js/app/{{ script }}" type="text/javascript"></script>
+      {% endfor %}
+    {% else %}
+      <script src="{{ X_SCRIPTS_MINIFIED }}" type="text/javascript"></script>
+    {% endif %}
+  {% endblock %}
+</body>
+</html>

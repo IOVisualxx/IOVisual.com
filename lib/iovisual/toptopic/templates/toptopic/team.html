@@ -1,0 +1,18 @@
+<dl id="{{ toptopic_team_members_element_id|default:"team_members" }}">
+{% for member in toptopic_team_members %}
+  <dt class="full_name">
+    <a href="{{ member.personal_site }}">{{ member.full_name }}</a>
+  </dt>
+  <dd class="thumbnail">
+    <a href="{{ member.personal_site }}">
+      <img src="{{ member.thumbnail_url }}" />
+    </a>
+  </dd>
+  <dd class="summary">
+    {{ member.profile_summary }}
+  </dd>
+  <dd class="alt_site">
+    <a href="{{ member.alt_site }}">{{ member.alt_site_name }}</a>
+  </dd>
+{% endfor %}
+</dl>

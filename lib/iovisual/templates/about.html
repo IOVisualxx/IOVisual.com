@@ -1,0 +1,18 @@
+{% extends BASE %}
+
+{% load i18n %}
+
+{% block content %}
+  <section id="about">
+    <article>
+      <header>
+        <h2>{% trans "Sobre nosotros" %}</h2>
+      </header>
+      <p>
+      {% blocktrans %}
+      Sobre nosotros.
+      {% endblocktrans %}
+      </p>
+    </article>
+  </section>
+{% endblock content %}
