@@ -1,0 +1,148 @@
+/* Reset */
+body {
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: #e43;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+header {
+  margin-top: 40px;
+}
+
+/* Logo in header */
+#logo {
+  height: 100px;
+  overflow: hidden;
+  float: left;
+}
+
+#logo a {
+  display:block;
+  text-decoration: none;
+  color: #000;
+  background: transparent url(/media/img/camara100.png) 0 0 no-repeat;
+  padding: 36px 0px 0px 115px;
+  width: 160px;
+  font-size: 27px;
+  text-transform: lowercase;
+}
+
+#logo a span.name {
+  font-weight: normal;
+  position: relative;
+  top: -9px; 
+}
+
+#logo a span.name span.suffix {
+  font-weight:bold;
+}
+
+#logo a:hover span.name span.suffix {
+  color:#e22;
+}
+
+/* Main Menu */
+nav#main_menu {
+  float:left;
+}
+
+nav#main_menu ul {
+  list-style: none;
+  margin:48px 0px 0px 0px;
+}
+
+nav#main_menu ul li {
+  display: inline-block;
+  border-left: solid 2px #ccc;
+  height: 38px;
+  padding: 10px 0px 0px 15px;
+  margin-left: 15px; 
+}
+
+nav#main_menu ul li a {
+  font-size: 120%;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: lowercase;
+  color: #aaa;
+  vertical-align: middle;
+}
+
+nav#main_menu ul li a:hover, nav#main_menu ul li.selected a {
+  color: #666;
+}
+
+/* Footer */
+footer {
+  color: #666;
+  font-size: 83%;
+}
+
+footer a {
+  color: #aaa;
+}
+
+/* Short About */
+#short_about {
+  background: #000;
+  padding: 5px 10px;
+  width: 300px;
+  float: left;
+}
+
+#short_about p {
+  background: transparent url(/media/img/camara_light64.png) top right no-repeat;
+  margin: 20px 0px;
+  padding-right: 80px;
+  text-align: right;
+}
+
+/* Long Menu */
+nav#long_menu {
+  background: #000;
+  float: left;
+  width: 620px;
+  padding: 5px 10px;
+}
+
+nav#long_menu ul {
+  list-style: none;
+  margin: 20px 0px;
+}
+
+/* Copyright */
+#site_copyright {
+  background: #000;
+  border-top: solid 2px #666;
+  font-size: 83%;
+  -moz-border-radius: 0px 0px 6px 6px; /* Firefox */
+  -webkit-border-radius: 0px 0px 6px 6px; /* Safari, Chrome */
+  border-radius: 0px 0px 6px 6px;
+  padding: 5px 10px;
+  clear: both;
+}
+
+#site_copyright p {
+  margin: 5px 0px;
+}
+
+#site_copyright a img {
+  border-width: 0;
+  margin: -3px 5px 0px 0px;
+}
+
+/* Team */
+aside#team h2 {
+  text-transform: uppercase;
+  font-size: 172%;
+  color: #e22;
+}
+  
